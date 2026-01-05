@@ -181,7 +181,9 @@ AUTHOR
 ------
 
 Shrehan Raj Singh
+
 Second year undergraduate student at IIT Kharagpur
+
 Creator of Sunflower Programming Language
 
 Contact:
