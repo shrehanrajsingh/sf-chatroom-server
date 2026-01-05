@@ -189,146 +189,18 @@
         flex: 1;
       }
 
-      @media (max-width: 768px) {
+      @media (max-width: 600px) {
         .room-grid {
           grid-template-columns: 1fr;
         }
-
         .terminal-box {
-          border: 1px solid #0f0;
+          border: none;
           box-shadow: none;
-          padding: 15px;
-          max-width: 100%;
-          gap: 15px;
-        }
-
-        h1 {
-          font-size: 1.2em;
-        }
-
-        button {
-          padding: 12px 20px;
-          font-size: 14px;
-          width: 100%;
-        }
-
-        input[type="text"] {
-          font-size: 16px;
-          padding: 12px;
-        }
-
-        .chat-container {
-          border: none;
-          max-width: 100%;
-        }
-
-        .chat-header {
-          flex-direction: column;
-          gap: 10px;
-          align-items: flex-start;
-          padding: 10px 15px;
-        }
-
-        .chat-header-info {
-          font-size: 12px;
-          word-break: break-word;
-          width: 100%;
-        }
-
-        .chat-header-actions {
-          width: 100%;
-        }
-
-        .chat-header-actions button {
-          width: 100%;
-        }
-
-        .chat-messages {
-          padding: 15px;
-          font-size: 13px;
-        }
-
-        .message {
-          flex-direction: column;
-          gap: 5px;
-        }
-
-        .message-prefix {
-          font-size: 13px;
-        }
-
-        .message-content {
-          font-size: 13px;
-          padding-left: 0;
-        }
-
-        .message-time {
-          font-size: 0.7em;
-        }
-
-        .chat-input-area {
-          padding: 10px;
-          gap: 8px;
-          flex-wrap: wrap;
-        }
-
-        .chat-input-area span {
-          display: none;
-        }
-
-        .chat-input-area input {
-          flex: 1;
-          min-width: 200px;
-          font-size: 16px;
-        }
-
-        .chat-input-area button {
-          min-width: 100px;
-        }
-      }
-
-      @media (max-width: 480px) {
-        .terminal-box {
-          padding: 10px;
-          border: none;
           height: 100vh;
           justify-content: center;
         }
-
-        h1 {
-          font-size: 1.1em;
-        }
-
-        .chat-messages {
-          padding: 10px;
-          font-size: 12px;
-        }
-
-        .message-prefix {
-          font-size: 12px;
-        }
-
-        .message-content {
-          font-size: 12px;
-        }
-
-        .chat-input-area {
-          padding: 8px;
-        }
-
-        .chat-input-area button {
-          width: 100%;
-          margin-top: 5px;
-        }
-      }
-
-      @media (orientation: landscape) and (max-height: 500px) {
-        .terminal-box {
-          max-height: 100vh;
-          overflow-y: auto;
-          justify-content: flex-start;
-          padding-top: 20px;
-          padding-bottom: 20px;
+        .chat-container {
+          border: none;
         }
       }
     </style>
