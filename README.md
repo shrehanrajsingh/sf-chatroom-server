@@ -44,7 +44,7 @@ INSTALLATION
 1. Clone the repository:
 
    git clone https://github.com/shrehanrajsingh/sf-chatroom-server.git
-   
+
    cd sf-chatroom-server
 
 2. Ensure Sunflower is installed on your system. If not, install it from:
@@ -118,14 +118,16 @@ API Endpoints:
 FILE STRUCTURE
 --------------
 
+```
 simple-sf-webapp/
-|-- main.sf                 # Sunflower backend server
-|-- template/
-    |-- home.html           # Main chat interface
-    |-- contact.html        # Contact information page
-    |-- about.html          # About developer page
-    |-- explore.html        # VS Code replica visualization
-|-- README.md               # This file
+├── main.sf               # Sunflower backend server
+├── template/
+│   ├── home.html         # Main chat interface
+│   ├── contact.html      # Contact information page
+│   ├── about.html        # About developer page
+│   └── explore.html      # VS Code replica visualization
+└── README.md             # This file
+```
 
 TECHNICAL DETAILS
 -----------------
