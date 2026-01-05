@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Terminal Chat</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Courier New", Courier, monospace;
+        background-color: #000;
+        color: #0f0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+      }
+
+      .terminal-box {
+        background: #000;
+        border: 2px solid #0f0;
+        padding: 20px;
+        width: 100%;
+        max-width: 600px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      h1,
+      h2,
+      h3 {
+        text-transform: uppercase;
+        border-bottom: 1px dashed #0f0;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+      }
+
+      .input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      label {
+        font-weight: bold;
+      }
+
+      input[type="text"] {
+        background: #000;
+        border: 1px solid #0f0;
+        color: #0f0;
+        padding: 10px;
+        font-family: inherit;
+        font-size: 16px;
+        outline: none;
+      }
+
+      input[type="text"]:focus {
+        box-shadow: 0 0 5px #0f0;
+      }
+
+      button {
+        background: #000;
+        border: 1px solid #0f0;
+        color: #0f0;
+        padding: 10px 20px;
+        font-family: inherit;
+        font-weight: bold;
+        cursor: pointer;
+        text-transform: uppercase;
+        transition: all 0.2s;
+      }
+
+      button:hover {
+        background: #0f0;
+        color: #000;
+      }
+
+      .room-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+
+      .room-card {
+        border: 1px solid #0f0;
+        padding: 15px;
+        cursor: pointer;
+        text-align: center;
+      }
+
+      .room-card:hover {
+        background: #0f0;
+        color: #000;
+      }
+
+      .chat-container {
+        width: 100%;
+        height: 100vh;
+        max-width: 800px;
+        border-left: 1px solid #0f0;
+        border-right: 1px solid #0f0;
+        display: none;
+        flex-direction: column;
+      }
+
+      .chat-container.active {
+        display: flex;
+      }
+
+      .chat-header {
+        border-bottom: 1px solid #0f0;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .chat-messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        font-size: 14px;
+      }
+
+      .chat-messages::-webkit-scrollbar {
+        width: 8px;
+      }
+      .chat-messages::-webkit-scrollbar-track {
+        background: #000;
+      }
+      .chat-messages::-webkit-scrollbar-thumb {
+        background: #0f0;
+        border: 1px solid #000;
+      }
+
+      .message {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+      }
+
+      .message-prefix {
+        font-weight: bold;
+        white-space: nowrap;
+      }
+
+      .message.user .message-prefix {
+        color: #0ff;
+      }
+
+      .message.other .message-prefix {
+        color: #0f0;
+      }
+
+      .message-content {
+        word-break: break-word;
+      }
+
+      .message-time {
+        color: #005500;
+        font-size: 0.8em;
+        margin-left: 5px;
+      }
+
+      .chat-input-area {
+        border-top: 1px solid #0f0;
+        padding: 15px;
+        display: flex;
+        gap: 10px;
+      }
+
+      .chat-input-area input {
+        flex: 1;
+      }
+
+      @media (max-width: 600px) {
+        .room-grid {
+          grid-template-columns: 1fr;
+        }
+        .terminal-box {
+          border: none;
+          box-shadow: none;
+          height: 100vh;
+          justify-content: center;
+        }
+        .chat-container {
+          border: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="terminal-box" id="authScreen">
+      <h1>> SYSTEM LOGIN</h1>
+      <p>Please identify yourself to proceed.</p>
+      <div class="input-group">
+        <label for="usernameInput">USERNAME:</label>
+        <input
+          type="text"
+          id="usernameInput"
+          placeholder="_"
+          onkeypress="handleAuthKeyPress(event)"
+          autocomplete="off"
+        />
+      </div>
+      <button onclick="enterUsername()">[ ENTER SYSTEM ]</button>
+      <div style="margin-top: 10px; text-align: center">
+        <a
+          href="/contact"
+          style="
+            color: #0f0;
+            text-decoration: none;
+            font-size: 0.8em;
+            margin-right: 15px;
+          "
+          >[ CONTACT ADMIN ]</a
+        >
+        <a
+          href="/about"
+          style="color: #0f0; text-decoration: none; font-size: 0.8em"
+          >[ ABOUT ]</a
+        >
+      </div>
+    </div>
+
+    <div class="chat-container" id="chatContainer">
+      <div class="chat-header">
+        <div class="chat-header-info">
+          <span id="chatRoomName">CHANNEL: UNKNOWN</span> | USER:
+          <span id="chatUsername">GUEST</span>
+        </div>
+        <div class="chat-header-actions">
+          <button onclick="exitChat()">[ DISCONNECT ]</button>
+        </div>
+      </div>
+
+      <div class="chat-messages" id="chatMessages">
+        <div class="message">
+          <span class="message-prefix">[SYSTEM]</span>
+          <span class="message-content"
+            >Connection established. Waiting for input...</span
+          >
+        </div>
+      </div>
+
+      <div class="chat-input-area">
+        <span style="padding-top: 10px">></span>
+        <input
+          type="text"
+          id="messageInput"
+          placeholder="_"
+          onkeypress="handleMessageKeyPress(event)"
+          autocomplete="off"
+        />
+        <button onclick="sendMessage()">[ SEND ]</button>
+      </div>
+    </div>
+
+    <script>
+      let username = "";
+      let currentRoom = "";
+      let messagesContainer = null;
+      let pollInterval = null;
+      let displayedCount = 0;
+
+      function handleAuthKeyPress(event) {
+        if (event.key === "Enter") {
+          enterUsername();
+        }
+      }
+
+      function enterUsername() {
+        const input = document.getElementById("usernameInput");
+        const value = input.value.trim();
+
+        if (!value) {
+          alert("ERROR: Username required.");
+          return;
+        }
+
+        username = value;
+        document.getElementById("authScreen").classList.add("hidden");
+
+        initChat("general", "GENERAL");
+
+        input.value = "";
+      }
+
+      function initChat(roomId, roomName) {
+        currentRoom = roomId;
+        document.getElementById("chatContainer").classList.add("active");
+
+        document.getElementById("chatRoomName").textContent =
+          "CHANNEL: " + roomName;
+        document.getElementById("chatUsername").textContent = username;
+
+        messagesContainer = document.getElementById("chatMessages");
+        messagesContainer.innerHTML = `
+                <div class="message">
+                    <span class="message-prefix">[SYSTEM]</span>
+                    <span class="message-content">Connected to ${roomName}. Secure line active.</span>
+                </div>
+            `;
+        displayedCount = 0;
+
+        document.getElementById("messageInput").focus();
+
+        pollMessages();
+        pollInterval = setInterval(pollMessages, 800);
+      }
+
+      async function pollMessages() {
+        try {
+          const response = await fetch("/chats");
+          const data = await response.json();
+
+          if (data.chats && Array.isArray(data.chats)) {
+            if (data.chats.length < displayedCount) {
+              messagesContainer.innerHTML = `
+                    <div class="message">
+                        <span class="message-prefix">[SYSTEM]</span>
+                        <span class="message-content">Connected to ${currentRoom.toUpperCase()}. Secure line active.</span>
+                    </div>
+                `;
+              displayedCount = 0;
+            }
+
+            const newMessages = data.chats.slice(displayedCount);
+            newMessages.forEach((chat) => {
+              addMessage(chat.user, chat.message);
+            });
+
+            displayedCount = data.chats.length;
+          }
+        } catch (error) {
+          console.error("Polling error:", error);
+        }
+      }
+
+      function handleMessageKeyPress(event) {
+        if (event.key === "Enter" && !event.shiftKey) {
+          event.preventDefault();
+          sendMessage();
+        }
+      }
+
+      async function sendMessage() {
+        const input = document.getElementById("messageInput");
+        let message = input.value.trim();
+
+        if (!message) return;
+
+        message = message.replace(/"/g, "&quot;");
+
+        try {
+          const response = await fetch("/addchat", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              message: message,
+              user: username,
+            }),
+          });
+
+          if (response.ok) {
+            input.value = "";
+            input.focus();
+            pollMessages();
+          }
+        } catch (error) {
+          console.error("Error sending message:", error);
+        }
+      }
+
+      function addMessage(msgUser, text) {
+        const messageDiv = document.createElement("div");
+        const isCurrentUser = msgUser === username;
+        messageDiv.className = isCurrentUser ? "message user" : "message other";
+        const time = getCurrentTime();
+
+        const unescapedText = text.replace(/&quot;/g, '"');
+
+        messageDiv.innerHTML = `
+                <span class="message-prefix">[${msgUser}]</span>
+                <span class="message-content">${escapeHtml(
+                  unescapedText
+                )} <span class="message-time"><${time}></span></span>
+            `;
+        messagesContainer.appendChild(messageDiv);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      }
+
+      function getCurrentTime() {
+        const now = new Date();
+        return now.toLocaleTimeString("en-US", {
+          hour12: false,
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        });
+      }
+
+      function escapeHtml(text) {
+        const div = document.createElement("div");
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      function exitChat() {
+        if (confirm("TERMINATE SESSION?")) {
+          document.getElementById("chatContainer").classList.remove("active");
+          document.getElementById("authScreen").classList.remove("hidden");
+          document.getElementById("messageInput").value = "";
+          username = "";
+          if (pollInterval) clearInterval(pollInterval);
+        }
+      }
+
+      window.addEventListener("load", () => {
+        document.getElementById("usernameInput").focus();
+      });
+    </script>
+  </body>
+</html>

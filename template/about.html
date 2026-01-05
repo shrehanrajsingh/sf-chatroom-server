@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Developer</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Courier New", Courier, monospace;
+        background-color: #000;
+        color: #0f0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+      }
+
+      .terminal-box {
+        background: #000;
+        border: 2px solid #0f0;
+        padding: 20px;
+        width: 100%;
+        max-width: 700px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+
+      /* Custom scrollbar */
+      .terminal-box::-webkit-scrollbar {
+        width: 8px;
+      }
+      .terminal-box::-webkit-scrollbar-track {
+        background: #000;
+      }
+      .terminal-box::-webkit-scrollbar-thumb {
+        background: #0f0;
+        border: 1px solid #000;
+      }
+
+      h1 {
+        text-transform: uppercase;
+        border-bottom: 1px dashed #0f0;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+      }
+
+      .info-row {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .label {
+        font-weight: bold;
+        opacity: 0.8;
+      }
+
+      .value {
+        padding-left: 20px;
+        font-size: 1.1em;
+        line-height: 1.4;
+      }
+
+      a {
+        color: #0f0;
+        text-decoration: none;
+        border-bottom: 1px solid #0f0;
+      }
+
+      a:hover {
+        background: #0f0;
+        color: #000;
+      }
+
+      .back-button {
+        background: #000;
+        border: 1px solid #0f0;
+        color: #0f0;
+        padding: 10px 20px;
+        font-family: inherit;
+        font-weight: bold;
+        cursor: pointer;
+        text-transform: uppercase;
+        transition: all 0.2s;
+        text-align: center;
+        text-decoration: none;
+        margin-top: 20px;
+      }
+
+      .back-button:hover {
+        background: #0f0;
+        color: #000;
+      }
+
+      .social-list {
+        list-style: none;
+      }
+
+      .social-list li {
+        margin-bottom: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="terminal-box">
+      <h1>> ABOUT DEVELOPER</h1>
+
+      <div class="info-row">
+        <span class="label">IDENTITY:</span>
+        <span class="value">Shrehan Raj Singh</span>
+      </div>
+
+      <div class="info-row">
+        <span class="label">BACKGROUND:</span>
+        <span class="value"> Undergraduate student at IIT Kharagpur. </span>
+      </div>
+
+      <div class="info-row">
+        <span class="label">PROJECT_SUNFLOWER:</span>
+        <span class="value">
+          Creator of
+          <a
+            href="https://github.com/shrehanrajsingh/sunflower-cpp"
+            target="_blank"
+            >Sunflower Programming Language</a
+          >. <br /><br />
+          > SYSTEM NOTE: This website's backend is built using Sunflower.
+        </span>
+      </div>
+
+      <div class="info-row">
+        <span class="label">CONNECT:</span>
+        <div class="value">
+          <ul class="social-list">
+            <li>
+              EMAIL:
+              <a href="mailto:shrehanofficial@gmail.com"
+                >shrehanofficial@gmail.com</a
+              >
+            </li>
+            <li>
+              GITHUB:
+              <a href="https://github.com/shrehanrajsingh" target="_blank"
+                >shrehanrajsingh</a
+              >
+            </li>
+            <li>
+              INSTAGRAM:
+              <a href="https://instagram.com/shrehanrajsingh" target="_blank"
+                >shrehanrajsingh</a
+              >
+            </li>
+            <li>
+              LINKEDIN:
+              <a
+                href="https://www.linkedin.com/in/shrehanrajsingh/"
+                target="_blank"
+                >shrehanrajsingh</a
+              >
+            </li>
+            <li>
+              PORTFOLIO:
+              <a href="https://shrehanrajsingh.dev" target="_blank"
+                >shrehanrajsingh.dev</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <a href="/" class="back-button">[ RETURN TO SYSTEM ]</a>
+    </div>
+  </body>
+</html>
